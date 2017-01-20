@@ -286,7 +286,7 @@ jasmineRequire.HtmlReporter = function(j$) {
         setMenuModeTo('failure-list');
 
         var failureNode = find('.failures');
-        for (var i = 0; i < failures.length; i++) {
+        for (i = 0; i < failures.length; i++) {
           failureNode.appendChild(failures[i]);
         }
       }
