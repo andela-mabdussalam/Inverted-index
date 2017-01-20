@@ -214,7 +214,7 @@ jasmineRequire.HtmlReporter = function(j$) {
 
       alert.appendChild(createDom('span', {className: statusBarClassName}, statusBarMessage));
 
-      for(i = 0; i < failedSuites.length; i++) {
+      for(var i = 0; i < failedSuites.length; i++) {
         var failedSuite = failedSuites[i];
         for(var j = 0; j < failedSuite.failedExpectations.length; j++) {
           var errorBarMessage = 'AfterAll ' + failedSuite.failedExpectations[j].message;
