@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="index">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/test.css">
+  <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
+</head>
+
+
+<body ng-controller="IndexController">
+  <div class="container">
+    <div class="jumbotron">
+      <h2 style="color:darkslategrey ">Inverted Index</h2>
+<p style="font-size: 12px">A simple and easy to use platform that allows you to
+  create indexes and even search through them.Get Started.</p>
+
+</div>
+<div class="row">
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-7">
+        <input type="file" id="files" upload-file accept=".json" multiple />
+
+      </div>
+      <div class="col-lg-5">
+       <button class="btn btn-default pull-right" ng-click="uploadFile()">Upload File</button>
+      </div>
+    </div>
+      <hr/>
+      <div class="spacer"></div>
+      <div class="row">
+      <div class="col-lg-7">
+      <select class="form-control input-small"  id="selected" ng-model='selectedFile'>
+      <option value="" disabled selected>Select a file to index</option>
+      <option ng-repeat="key in filenames track by $index">{{key}}</option>
+      <option value ="Allfiles">All files</option>
+      </select>
+      </div>
+      <div class="col-lg-5">
+      <button class="btn btn-default pull-right" ng-click="getIndex()">Create Index</button>
+      </div>
+      </div>
+      <hr/>
+      <div class="spacer"></div>
+
+
+
+      <input id="Searchbar" ng-model='searchTerm' class="font" /><button class="btn btn-default pull-right" ng-click="searchIndex()">Search index</button>
+      <div class="spacer"></div>
+      <hr/>
+      <p style="font-size: 12px">Get Started in these simple and easy steps</p>
+
+      <ol class="rectangle-list">
+        <li><a> Select a file.</a></li>
+        <li><a> Upload the file / Upload multiple files. </a></li>
+        <li><a> Select the file you want to index or Select 'All files'.</a></li>
+        <li><a> Create the index.</a></li>
+        <li><a> Search through the index.</a> </li>
+
+      </ol>
+
+    </div>
+    <div class="col-lg-8">
+      <div ng-if="showIndex" class="fontSize">
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Words</th>
+              <th ng-repeat="title in bookTitle "> {{title}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(key, values) in index">
+              <td>{{key}}</td>
+              <td ng-repeat="test in noOfBook track by $index">
+                <i class="glyphicon glyphicon-ok" ng-if="values.includes(test)"></i>
+                <i class="glyphicon glyphicon-remove" ng-if="!values.includes(test)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="js/inverted-index.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
