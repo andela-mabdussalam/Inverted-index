@@ -3,7 +3,7 @@ const book2 = require('../books2.json');
 const empty = require('../empty.json');
 const notArray = require('../notArray.json');
 const badFile = require('../badFile.json');
-const testFile = require('../testFlle.json');
+const testFile = require('../test.json');
 
 describe('Inverted Index ', () => {
   const index = new Index();

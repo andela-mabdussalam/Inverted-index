@@ -60,7 +60,7 @@ const book2 = require('../books2.json');
 const empty = require('../empty.json');
 const notArray = require('../notArray.json');
 const badFile = require('../badFile.json');
-const testFile = require('../testFile.json');
+const testFile = require('../test.json');
 
 describe('Inverted Index ', () => {
   const index = new Index();
@@ -143,7 +143,7 @@ describe('Inverted Index ', () => {
 });
 
 
-},{"../badFile.json":1,"../books.json":2,"../books2.json":3,"../empty.json":4,"../notArray.json":5,"../testFile.json":7}],7:[function(require,module,exports){
+},{"../badFile.json":1,"../books.json":2,"../books2.json":3,"../empty.json":4,"../notArray.json":5,"../test.json":7}],7:[function(require,module,exports){
 module.exports=[
   {
     "title": "Alice in Wonderland",
@@ -152,7 +152,7 @@ module.exports=[
 
   {
     "title": "The Lord of the Rings: The Fellowship of the Ring.",
-    "text": "powerful ring."
+    "text": "powerful ring"
   }
 ]
 
