@@ -24,7 +24,13 @@
     "jasmine": "^2.5.3",
     "jshint": "^2.9.4",
     "gulp-browserify": "^0.5.1",
-    "gulp-rename": "^1.2.2"
+    "gulp-rename": "^1.2.2",
+     "karma": "^1.4.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
+    "karma-jasmine": "^1.1.0",
+    "karma-verbose-reporter": "0.0.5"
   },
   "devDependencies": {
     "browserify": "^14.0.0",
