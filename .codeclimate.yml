@@ -13,7 +13,6 @@ engines:
       - javascript
 ratings:
   paths:
-  - src/*.js
+  - src/js/*.js
 exclude_paths:
-- src/js/*.js
-- jsamine/build/
+- jasmine/build/
