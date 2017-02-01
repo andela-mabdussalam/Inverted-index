@@ -31,7 +31,7 @@ app.controller('IndexController', ($scope, toastr) => {
           myIndex.files.allBooks = myIndex.files.allBooks.concat(jsonObject);
           myIndex.createIndex(fileName);
           myIndex.createIndex();
-          toastr.success('File uploaded');
+          toastr.success(`${$scope.files[index].name} has been uploaded`);
         };
         if ($scope.filenames.includes($scope.files[index].name)) {
           toastr.error(`You have uploaded the
@@ -49,19 +49,20 @@ app.controller('IndexController', ($scope, toastr) => {
 
   $scope.getIndex = () => {
     $scope.showIndex = true;
+    const filename = stripExtension($scope.selectedFile);
     try {
       $scope.bookTitle = myIndex.bookTitle;
       if ($scope.selectedFile === 'Allfiles') {
         $scope.index = myIndex.getIndex();
-        $scope.noOfBook = myIndex.allBooksNos;
-        $scope.bookTitle = myIndex.allBooksTitle;
+        $scope.noOfBook = myIndex.files.length;
+        $scope.bookTitle = myIndex.files.allBooksTitle;
       } else {
-        $scope.index = myIndex.getIndex(stripExtension($scope.selectedFile));
-        $scope.noOfBook = myIndex.bookNos;
-        $scope.bookTitle = myIndex.bookTitle;
+        $scope.index = myIndex.getIndex(filename);
+        $scope.noOfBook = myIndex.files[filename].length;
+        $scope.bookTitle = myIndex.files[filename].bookTitle;
       }
     } catch (err) {
-      toastr.error('Enter a search word/Create an Index first', 'Error');
+      toastr.error('Create an Index first', 'Error');
     }
   };
 
@@ -75,7 +76,7 @@ app.controller('IndexController', ($scope, toastr) => {
           stripExtension($scope.selectedFile));
       }
     } catch (err) {
-      toastr.error('Pls enter a search word', 'Error');
+      toastr.error('Please enter a search word', 'Error');
     }
   };
 });

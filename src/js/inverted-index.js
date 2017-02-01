@@ -4,23 +4,18 @@
 /** Class representing a index. */
 class Index {
   /**
-   * Create and Index and search the index.
+   * @constructor
    */
   constructor() {
+    // stores all created file indexes
     this.files = {
       allBooks: []
     };
-    this.words = [];
-    this.wordIndex = {};
-    this.bookNos = [];
-    this.bookTitle = [];
-    this.allBooksNos = [];
-    this.allBooksTitle = [];
   }
 /**
-* takes a file name and removes the extension
-* @param {String} string the content of the file
-* @returns {string} returns a string
+* takes a string, removes unwanted symbols and returns an array
+* @param {String} string words
+* @returns {Array} returns an array
 */
   tokenize(string) {
     return string.replace(/[.,'':]/g, '').split(' ');
@@ -82,16 +77,14 @@ class Index {
         }
       });
     });
-
-
     if (!filename) {
       this.files.allBooksIndex = fileIndex;
-      this.allBooksNos = noOfBooks;
-      this.allBooksTitle = bookTitle;
+      this.files.length = noOfBooks;
+      this.files.allBooksTitle = bookTitle;
     } else {
       this.files[filename].index = fileIndex;
-      this.bookNos = noOfBooks;
-      this.bookTitle = bookTitle;
+      this.files[filename].length = noOfBooks;
+      this.files[filename].bookTitle = bookTitle;
     }
   }
   /**
