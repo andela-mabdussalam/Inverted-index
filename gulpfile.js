@@ -1,18 +1,12 @@
 const gulp = require('gulp');
-
 const browserSync = require('browser-sync').create();
-
 const testSync = require('browser-sync').create();
+const browserify = require('gulp-browserify');
+const rename = require('gulp-rename');
+const path = require('path');
+const karma = require('karma').Server;
 
 const reload = browserSync.reload;
-
-const browserify = require('gulp-browserify');
-
-const rename = require('gulp-rename');
-
-const path = require('path');
-
-const karma = require('karma').Server;
 
 gulp.task('scripts', () => {
   gulp.src('jasmine/spec/inverted-index-test.js')
