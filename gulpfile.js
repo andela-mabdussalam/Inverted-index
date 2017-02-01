@@ -27,8 +27,9 @@ gulp.task('browserSync', () => {
       baseDir: 'src/',
       index: 'index.html'
     },
-    port: 8000,
-    ui: false
+    port: process.env.PORT || 8000,
+    ui: false,
+    ghostMode: false
   });
 });
 
@@ -49,7 +50,9 @@ gulp.task('testSync', () => {
       index: 'SpecRunner.html'
     },
     port: 8888,
-    ui: false
+    ui: false,
+    ghostMode: false,
+    open: false
   });
 });
 
