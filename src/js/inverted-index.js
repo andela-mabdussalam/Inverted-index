@@ -13,7 +13,7 @@ class Index {
     };
   }
 /**
-* takes a string, removes unwanted symbols and returns an array
+* Takes a string, removes unwanted symbols and returns an array
 * @param {String} string words
 * @returns {Array} returns an array
 */
@@ -22,7 +22,7 @@ class Index {
   }
 
   /**
-* checks the content of the uploaded json file and returns
+* Checks the content of the uploaded json file and returns
 * true if the file format is the expected format
 * @param {Array} file the content of the file
 * @returns {boolean} returns a boolean

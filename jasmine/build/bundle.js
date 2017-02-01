@@ -56,14 +56,11 @@ module.exports={
 
 },{}],6:[function(require,module,exports){
 const books = require('../books.json');
-
 const book2 = require('../books2.json');
-
 const empty = require('../empty.json');
-
 const notArray = require('../notArray.json');
-
 const badFile = require('../badFile.json');
+const testFile = require('../testFile.json');
 
 describe('Inverted Index ', () => {
   const index = new Index();
@@ -102,14 +99,13 @@ describe('Inverted Index ', () => {
   describe('Populate Index', () => {
     const index2 = new Index();
     index2.files.key = {};
-    index2.files.key.books = books;
+    index2.files.key.books = testFile;
     index2.createIndex('key');
-
     it('should verify that key has been created', () => {
       expect(Object.prototype.hasOwnProperty.call(index2.files.key, 'index')).toBe(true);
     });
     it('should check that index maps the string to the correct objects', () => {
-      expect(index2.files.key.index.Alice).toEqual([0]);
+      expect(index2.getIndex('key')).toEqual({ a: [0], full: [0], powerful: [1], ring: [1], world: [0] });
     });
   });
 
@@ -147,4 +143,17 @@ describe('Inverted Index ', () => {
 });
 
 
-},{"../badFile.json":1,"../books.json":2,"../books2.json":3,"../empty.json":4,"../notArray.json":5}]},{},[6])
+},{"../badFile.json":1,"../books.json":2,"../books2.json":3,"../empty.json":4,"../notArray.json":5,"../testFile.json":7}],7:[function(require,module,exports){
+module.exports=[
+  {
+    "title": "Alice in Wonderland",
+    "text": "a world full."
+  },
+
+  {
+    "title": "The Lord of the Rings: The Fellowship of the Ring.",
+    "text": "powerful ring."
+  }
+]
+
+},{}]},{},[6])
