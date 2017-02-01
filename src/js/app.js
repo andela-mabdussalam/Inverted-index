@@ -26,7 +26,6 @@ app.controller('IndexController', ($scope, toastr) => {
           }
 
           $scope.filenames.push($scope.files[index].name);
-          console.log($scope.filenames);
           myIndex.files[fileName] = {};
           myIndex.files[fileName].books = jsonObject;
           myIndex.files.allBooks = myIndex.files.allBooks.concat(jsonObject);
