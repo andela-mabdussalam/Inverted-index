@@ -33,18 +33,9 @@
     "karma-verbose-reporter": "0.0.5"
   },
   "devDependencies": {
-    "browserify": "^14.0.0",
     "coveralls": "^2.11.15",
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
-    "eslint-plugin-import": "^2.2.0",
-    "gulp-browserify": "^0.5.1",
-    "gulp-rename": "^1.2.2",
-    "karma": "^1.4.1",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-coverage": "^1.1.1",
-    "karma-coveralls": "^1.1.2",
-    "karma-jasmine": "^1.1.0",
-    "karma-verbose-reporter": "0.0.5"
+    "eslint-plugin-import": "^2.2.0"
   }
 }
