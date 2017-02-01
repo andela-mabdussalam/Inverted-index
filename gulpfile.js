@@ -10,6 +10,10 @@ const browserify = require('gulp-browserify');
 
 const rename = require('gulp-rename');
 
+const path = require('path');
+
+const karma = require('karma').Server;
+
 gulp.task('scripts', () => {
   gulp.src('jasmine/spec/inverted-index-test.js')
    .pipe(browserify())
@@ -27,6 +31,16 @@ gulp.task('browserSync', () => {
     ui: false
   });
 });
+
+gulp.task('karma', ['scripts'], (done) => {
+ karma.start({
+   configFile: path.resolve('karma.conf.js'),
+   singleRun: true
+ }, () => {
+   done();
+ });
+});
+
 
 gulp.task('testSync', () => {
   testSync.init({
@@ -46,3 +60,6 @@ gulp.task('default', ['browserSync', 'scripts', 'testSync'], () => {
   gulp.watch(['jasmine/spec/*.js'], testSync.reload);
   gulp.watch(['src/js/invertedindex.js', 'jasmine/spec/inverted-index-test.js'], ['scripts']);
 });
+
+// gulp test
+gulp.task('test', ['scripts', 'karma']);
