@@ -5,6 +5,8 @@ const notArray = require('../notArray.json');
 const badFile = require('../badFile.json');
 const testFile = require('../test.json');
 
+const file = null;
+
 describe('Inverted Index ', () => {
   const index = new Index();
   it('should be truthy for the instance of the class', () => {
@@ -12,6 +14,10 @@ describe('Inverted Index ', () => {
   });
 
   describe('Read Book Data', () => {
+    it('should return false if the json file is empty', () => {
+      const isValid = index.isValidJsonArray(file);
+      expect(isValid).toBe(false);
+    });
     it('should return false if the json file is empty', () => {
       const isValid = index.isValidJsonArray(empty);
       expect(isValid).toBe(false);
@@ -44,11 +50,38 @@ describe('Inverted Index ', () => {
     index2.files.key = {};
     index2.files.key.books = testFile;
     index2.createIndex('key');
+    index2.files.allBooks = testFile;
+    index2.createIndex();
+
     it('should verify that key has been created', () => {
       expect(Object.prototype.hasOwnProperty.call(index2.files.key, 'index')).toBe(true);
     });
     it('should check that index maps the string to the correct objects', () => {
       expect(index2.getIndex('key')).toEqual({ a: [0], full: [0], powerful: [1], ring: [1], world: [0] });
+    });
+    it('should check that it returns an index if no filename is not given', () => {
+      expect(index2.getIndex()).toEqual({ a: [0], full: [0], powerful: [1], ring: [1], world: [0] });
+    });
+    it('should check that the array returned contains unique words', () => {
+      expect(index2.filterWords(['a', 'a'])).toEqual(['a']);
+    });
+    it('should set the index key for a filename', () => {
+      index2.files.key2 = {};
+      index2.setIndex({ a: [1, 2, 3], b: [0, 1] }, 'key2');
+      expect(index2.files.key2.index).toEqual({ a: [1, 2, 3], b: [0, 1] });
+    });
+    it('should set the index for all files', () => {
+      const index3 = new Index();
+      index3.setIndex({ a: [1, 2, 3], b: [0, 1] });
+      expect(index3.files.allBooksIndex).toEqual({ a: [1, 2, 3], b: [0, 1] });
+    });
+    it('should get the books for a filename', () => {
+      const book = index2.getBooks('key');
+      expect(book).toEqual(testFile);
+    });
+    it('should get all the books', () => {
+      const book = index2.getBooks();
+      expect(book).toEqual(testFile);
     });
   });
 
