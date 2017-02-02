@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
 </head>
+<link rel="icon" type="image/png" href="images/favicon.ico" sizes="32x32" />
 
 
 <body ng-controller="IndexController">
@@ -72,15 +73,15 @@
           <thead>
             <tr>
               <th>Words</th>
-              <th ng-repeat="title in bookTitle "> {{title}}</th>
+              <th ng-repeat="title in bookTitle "> {{title.title}}</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="(key, values) in index">
               <td>{{key}}</td>
               <td ng-repeat="test in noOfBook track by $index">
-                <i class="glyphicon glyphicon-ok" ng-if="values.includes(test)"></i>
-                <i class="glyphicon glyphicon-remove" ng-if="!values.includes(test)"></i>
+                <i class="glyphicon glyphicon-ok" ng-if="values.includes($index)"></i>
+                <i class="glyphicon glyphicon-remove" ng-if="!values.includes($index)"></i>
               </td>
             </tr>
           </tbody>
