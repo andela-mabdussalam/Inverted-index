@@ -1,0 +1,18 @@
+---
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-2"
+  duplication:
+    enabled: true
+    checks:
+      Similar code:
+        enabled: false
+    config:
+      languages:
+      - javascript
+ratings:
+  paths:
+  - src/js/*.js
+exclude_paths:
+- jasmine/build/
