@@ -54,12 +54,12 @@ app.controller('IndexController', ($scope, toastr) => {
       $scope.bookTitle = myIndex.bookTitle;
       if ($scope.selectedFile === 'Allfiles') {
         $scope.index = myIndex.getIndex();
-        $scope.noOfBook = myIndex.files.length;
-        $scope.bookTitle = myIndex.files.allBooksTitle;
+        $scope.noOfBook = new Array(myIndex.files.allBooks.length);
+        $scope.bookTitle = myIndex.files.allBooks;
       } else {
         $scope.index = myIndex.getIndex(filename);
-        $scope.noOfBook = myIndex.files[filename].length;
-        $scope.bookTitle = myIndex.files[filename].bookTitle;
+        $scope.noOfBook = new Array(myIndex.files[filename].books.length);
+        $scope.bookTitle = myIndex.files[filename].books;
       }
     } catch (err) {
       toastr.error('Create an Index first', 'Error');
@@ -70,10 +70,15 @@ app.controller('IndexController', ($scope, toastr) => {
     $scope.showIndex = true;
     try {
       if ($scope.selectedFile === 'Allfiles') {
+        $scope.bookTitle = myIndex.files.allBooks;
+        $scope.noOfBook = new Array(myIndex.files.allBooks.length);
         $scope.index = myIndex.searchIndex($scope.searchTerm);
       } else {
+        const filename = stripExtension($scope.selectedFile);
+        $scope.bookTitle = myIndex.files[filename].books;
+        $scope.noOfBook = new Array(myIndex.files[filename].books.length);
         $scope.index = myIndex.searchIndex($scope.searchTerm,
-          stripExtension($scope.selectedFile));
+          filename);
       }
     } catch (err) {
       toastr.error('Please enter a search word', 'Error');
