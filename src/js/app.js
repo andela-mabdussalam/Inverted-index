@@ -1,36 +1,31 @@
 const app = angular.module('index', ['toastr']);
 
 app.controller('IndexController', ($scope, toastr) => {
-  $scope.names = 'mariam';
   $scope.files = null;
   $scope.filenames = [];
   $scope.allFiles = [];
+  $scope.createdIndex = [];
   $scope.showIndex = false;
   const myIndex = new Index();
+  $scope.file = [];
 
-  stripExtension = (name) => {
-    return name.toLowerCase().replace(/\s/g, '').split('.')[0];
-  };
   $scope.uploadFile = () => {
     try {
       Object.keys($scope.files).forEach((key, index) => {
         const readFile = new FileReader();
         readFile.onload = (e) => {
-          const fileName = stripExtension($scope.files[index].name);
           const text = e.target.result;
-          const jsonObject = JSON.parse(text);
-          if (myIndex.isValidJsonArray(jsonObject) === false) {
+          const fileContent = JSON.parse(text);
+          if (Index.isFileValid(fileContent) === false) {
             toastr.error('Your file does not match the specified format',
               'Error');
             return;
           }
-
+          const fileDetail = {};
+          fileDetail.name = $scope.files[index].name;
+          fileDetail.content = fileContent;
+          $scope.allFiles.push(fileDetail);
           $scope.filenames.push($scope.files[index].name);
-          myIndex.files[fileName] = {};
-          myIndex.files[fileName].books = jsonObject;
-          myIndex.files.allBooks = myIndex.files.allBooks.concat(jsonObject);
-          myIndex.createIndex(fileName);
-          myIndex.createIndex();
           toastr.success(`${$scope.files[index].name} has been uploaded`);
         };
         if ($scope.filenames.includes($scope.files[index].name)) {
@@ -46,42 +41,49 @@ app.controller('IndexController', ($scope, toastr) => {
     }
   };
 
-
-  $scope.getIndex = () => {
+  const indexTableData = () => {
     $scope.showIndex = true;
-    const filename = stripExtension($scope.selectedFile);
-    try {
-      $scope.bookTitle = myIndex.bookTitle;
-      if ($scope.selectedFile === 'Allfiles') {
-        $scope.index = myIndex.getIndex();
-        $scope.noOfBook = new Array(myIndex.files.allBooks.length);
-        $scope.bookTitle = myIndex.files.allBooks;
-      } else {
-        $scope.index = myIndex.getIndex(filename);
-        $scope.noOfBook = new Array(myIndex.files[filename].books.length);
-        $scope.bookTitle = myIndex.files[filename].books;
-      }
-    } catch (err) {
-      toastr.error('Create an Index first', 'Error');
+    $scope.showSearchTable = false;
+    $scope.noOfBook = new Array($scope.content.length);
+  };
+
+  $scope.createIndex = () => {
+    const value = $scope.selectedFile;
+    $scope.content = $scope.allFiles[value].content;
+    const filename = $scope.allFiles[value].name;
+    $scope.index = myIndex.getIndex(filename);
+
+    if ($scope.index) {
+      indexTableData();
+    } else {
+      myIndex.createIndex(filename, $scope.content);
+      $scope.index = myIndex.getIndex(filename);
+      $scope.createdIndex.push($scope.allFiles[value].name);
+      indexTableData();
     }
   };
 
+
   $scope.searchIndex = () => {
-    $scope.showIndex = true;
-    try {
-      if ($scope.selectedFile === 'Allfiles') {
-        $scope.bookTitle = myIndex.files.allBooks;
-        $scope.noOfBook = new Array(myIndex.files.allBooks.length);
-        $scope.index = myIndex.searchIndex($scope.searchTerm);
-      } else {
-        const filename = stripExtension($scope.selectedFile);
-        $scope.bookTitle = myIndex.files[filename].books;
-        $scope.noOfBook = new Array(myIndex.files[filename].books.length);
-        $scope.index = myIndex.searchIndex($scope.searchTerm,
-          filename);
+    $scope.showIndex = false;
+    $scope.showSearchTable = true;
+    const value = $scope.selectedFile;
+
+    const filename = value === 'Allfiles' ? null : $scope.allFiles[value].name;
+    if (!filename) {
+      $scope.index = myIndex.searchIndex($scope.searchTerm);
+    } else {
+      if ($scope.searchTerm === undefined) {
+        toastr.error('Please enter a search word', 'Error');
+        return false;
       }
-    } catch (err) {
-      toastr.error('Please enter a search word', 'Error');
+      $scope.file = [];
+      $scope.file.push(filename);
+      const obj = $scope.allFiles[value].content;
+      $scope.bookTitle = obj;
+      $scope.noOfBook = new Array(obj.length);
+      $scope.index = myIndex.searchIndex($scope.searchTerm,
+        $scope.file);
     }
   };
 });
