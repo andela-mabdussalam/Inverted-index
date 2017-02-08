@@ -18,78 +18,109 @@
     <div class="jumbotron">
       <h2 style="color:darkslategrey ">Inverted Index</h2>
 <p style="font-size: 12px">A simple and easy to use platform that allows you to
-  create indexes and even search through them.Get Started.</p>
+   create indexes and even search through them.Get Started.</p>
 
 </div>
 <div class="row">
   <div class="col-lg-4">
+    <p style="font-size: 14px">Get Started in these simple and easy steps</p>
+    <ol class="rectangle-list">
+  <li><a> Select a file.</a></li>
+  <li><a> Upload the file / Upload multiple files. </a></li>
+  <li><a> Select the file you want to index or Select 'All files'.</a></li>
+  <li><a> Create the index.</a></li>
+  <li><a> Search through the index.</a> </li>
+
+</ol>
     <div class="row">
       <div class="col-lg-7">
         <input type="file" id="files" upload-file accept=".json" multiple />
 
       </div>
       <div class="col-lg-5">
-       <button class="btn btn-default pull-right" ng-click="uploadFile()">Upload File</button>
+        <button class="btn btn-default pull-right" ng-click="uploadFile()">Upload File</button>
       </div>
     </div>
-      <hr/>
-      <div class="spacer"></div>
-      <div class="row">
+    <hr/>
+    <div class="spacer"></div>
+    <div class="row">
       <div class="col-lg-7">
-      <select class="form-control input-small"  id="selected" ng-model='selectedFile'>
+        <select class="form-control input-small" id="selected" ng-model='selectedFile'>
       <option value="" disabled selected>Select a file to index</option>
-      <option ng-repeat="key in filenames track by $index">{{key}}</option>
-      <option value ="Allfiles">All files</option>
+      <option value={{key}} ng-repeat="(key,value) in allFiles">{{value.name}}</option>
+
       </select>
       </div>
       <div class="col-lg-5">
-      <button class="btn btn-default pull-right" ng-click="getIndex()">Create Index</button>
+        <button class="btn btn-default pull-right" ng-click="createIndex()">Create Index</button>
       </div>
-      </div>
-      <hr/>
-      <div class="spacer"></div>
-
-
-
-      <input id="Searchbar" ng-model='searchTerm' class="font" /><button class="btn btn-default pull-right" ng-click="searchIndex()">Search index</button>
-      <div class="spacer"></div>
-      <hr/>
-      <p style="font-size: 12px">Get Started in these simple and easy steps</p>
-
-      <ol class="rectangle-list">
-        <li><a> Select a file.</a></li>
-        <li><a> Upload the file / Upload multiple files. </a></li>
-        <li><a> Select the file you want to index or Select 'All files'.</a></li>
-        <li><a> Create the index.</a></li>
-        <li><a> Search through the index.</a> </li>
-
-      </ol>
-
     </div>
-    <div class="col-lg-8">
-      <div ng-if="showIndex" class="fontSize">
+    <hr/>
+    <div class="spacer"></div>
 
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Words</th>
-              <th ng-repeat="title in bookTitle "> {{title.title}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="(key, values) in index">
-              <td>{{key}}</td>
-              <td ng-repeat="test in noOfBook track by $index">
-                <i class="glyphicon glyphicon-ok" ng-if="values.includes($index)"></i>
-                <i class="glyphicon glyphicon-remove" ng-if="!values.includes($index)"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
-    </div>
+
+    <input id="Searchbar" ng-model='searchTerm' class="font" />
+    <button class="btn btn-default pull-right" ng-click="searchIndex()">Search index</button>
+    <div class="spacer"></div>
+    <select class="form-control input-small" id="selectedFile" ng-model="selectedFile">
+      <option value="" disabled selected>Select a file to search from</option>
+      <option value="Allfiles">All files</option>
+      <option value={{key}} ng-repeat="(key,value) in createdIndex track by $index"> {{value}}</option>
+
+      </select>
+
+
+
+    <div class="spacer"></div>
+    <hr/>
+
+
+
+
+</div>
+<div class="col-lg-8">
+  <div ng-if="showIndex && !showSearchTable" class="fontSize">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Words</th>
+          <th ng-repeat="book in content "> {{book.title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, values) in index">
+          <td>{{key}}</td>
+          <td ng-repeat="test in noOfBook track by $index">
+            <i class="glyphicon glyphicon-ok" ng-if="values.includes($index)"></i>
+            <i class="glyphicon glyphicon-remove" ng-if="!values.includes($index)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <div ng-if="!showIndex && showSearchTable" class="fontSize">
+    <table class="table table-striped" ng-repeat="(filename, indexObj) in index">
+      <caption><h3>{{filename}}</h3></caption>
+      <thead>
+        <tr>
+          <th>Words</th>
+          <th ng-repeat="title in bookTitle "> {{title.title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, values) in indexObj">
+          <td>{{key}}</td>
+          <td ng-repeat="test in noOfBook track by $index">
+            <i class="glyphicon glyphicon-ok" ng-if="values.includes($index)"></i>
+            <i class="glyphicon glyphicon-remove" ng-if="!values.includes($index)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
 </div>
 <script src="js/inverted-index.js"></script>
 <script src="js/app.js"></script>
