@@ -79,7 +79,8 @@ class Index {
 * @returns {Object} returns an object that  contains the index of the file
 */
   getIndex(filename) {
-    return this.files[filename] ? this.files[filename].index : this.files[filename];
+    return this.files[filename]
+      ? this.files[filename].index : this.files[filename];
   }
   /**
 *Searches an Index
