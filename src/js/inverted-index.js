@@ -57,6 +57,8 @@ class Index {
   /**
 * Creates an index of files uploaded.
 * @param {String} filename the name of the file
+* @param {Object} fileContent contains content of file
+* @return {void}
 */
   createIndex(filename, fileContent) {
     const fileIndex = {};
