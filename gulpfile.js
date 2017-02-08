@@ -10,9 +10,9 @@ const reload = browserSync.reload;
 
 gulp.task('scripts', () => {
   gulp.src('jasmine/spec/inverted-index-test.js')
-   .pipe(browserify())
-   .pipe(rename('bundle.js'))
-   .pipe(gulp.dest('jasmine/build'));
+    .pipe(browserify())
+    .pipe(rename('bundle.js'))
+    .pipe(gulp.dest('jasmine/build'));
 });
 
 gulp.task('browserSync', () => {
@@ -28,12 +28,12 @@ gulp.task('browserSync', () => {
 });
 
 gulp.task('karma', ['scripts'], (done) => {
- karma.start({
-   configFile: path.resolve('karma.conf.js'),
-   singleRun: true
- }, () => {
-   done();
- });
+  karma.start({
+    configFile: path.resolve('karma.conf.js'),
+    singleRun: true
+  }, () => {
+    done();
+  });
 });
 
 
@@ -45,17 +45,18 @@ gulp.task('testSync', () => {
     },
     port: 8888,
     ui: false,
-    ghostMode: false,
-    open: false
+    ghostMode: false
   });
 });
 
 gulp.task('default', ['browserSync', 'scripts', 'testSync'], () => {
   gulp.watch(['views/*.html'], reload);
   gulp.watch(['src/js/*.js'], reload);
+  gulp.watch(['src/css/*.css'], reload);
   gulp.watch(['src/*.html'], reload);
-  gulp.watch(['jasmine/spec/*.js'], testSync.reload);
-  gulp.watch(['src/js/invertedindex.js', 'jasmine/spec/inverted-index-test.js'], ['scripts']);
+  gulp.watch(['src/js/invertedindex.js',
+    'jasmine/spec/inverted-index-test.js'], ['scripts']);
+  gulp.watch(['src/js/invertedindex.js', 'jasmine/spec/*.js'], testSync.reload);
 });
 
 // gulp test
