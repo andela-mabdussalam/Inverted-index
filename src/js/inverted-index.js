@@ -40,12 +40,12 @@ class Index {
       if (!Array.isArray(file) || file.length < 1) {
         check = false;
       }
-      for (let i = 0; i < file.length; i += 1) {
-        if (!file[i].title || !file[i].text) {
+      for (let num = 0; num < file.length; num += 1) {
+        if (!file[num].title || !file[num].text) {
           check = false;
         }
-        if (typeof file[i].title !== 'string' ||
-          typeof file[i].title !== 'string') {
+        if (typeof file[num].title !== 'string' ||
+          typeof file[num].title !== 'string') {
           check = false;
         }
       }
