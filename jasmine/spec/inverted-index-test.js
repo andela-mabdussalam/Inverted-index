@@ -15,104 +15,102 @@ describe('Inverted Index ', () => {
 
   describe('Read Book Data', () => {
     it('should return false if the json file is empty', () => {
-      const isValid = index.isValidJsonArray(file);
+      const isValid = Index.isFileValid(file);
       expect(isValid).toBe(false);
     });
+
     it('should return false if the json file is empty', () => {
-      const isValid = index.isValidJsonArray(empty);
+      const isValid = Index.isFileValid(empty);
       expect(isValid).toBe(false);
     });
+
     it('should return true if the file content is a valid json array', () => {
-      const isValid = index.isValidJsonArray(books);
+      const isValid = Index.isFileValid(books);
       expect(isValid).toBe(true);
     });
+
     it('should return false if the file content is not a json array', () => {
-      const isValid = index.isValidJsonArray(notArray);
+      const isValid = Index.isFileValid(notArray);
       expect(isValid).toBe(false);
     });
+
     it('should return true if file format is as expected', () => {
-      const isValid = index.isValidJsonArray(books);
+      const isValid = Index.isFileValid(books);
       expect(isValid).toBe(true);
     });
+
     it('should return false if the file format is not as expected', () => {
-      const valid = index.isValidJsonArray(book2);
+      const valid = Index.isFileValid(book2);
       expect(valid).toBe(false);
     });
+
     it('should return false if value of the array property is not a string',
       () => {
-        const valid = index.isValidJsonArray(badFile);
+        const valid = Index.isFileValid(badFile);
         expect(valid).toBe(false);
       });
   });
 
   describe('Populate Index', () => {
     const index2 = new Index();
-    index2.files.key = {};
-    index2.files.key.books = testFile;
-    index2.createIndex('key');
-    index2.files.allBooks = testFile;
-    index2.createIndex();
+    index2.createIndex('key', testFile);
+    index2.createIndex('key2', testFile);
 
     it('should verify that key has been created', () => {
-      expect(Object.prototype.hasOwnProperty.call(index2.files.key, 'index')).toBe(true);
+      expect(Object.prototype.hasOwnProperty
+        .call(index2.files.key, 'index')).toBe(true);
     });
     it('should check that index maps the string to the correct objects', () => {
-      expect(index2.getIndex('key')).toEqual({ a: [0], full: [0], powerful: [1], ring: [1], world: [0] });
-    });
-    it('should check that it returns an index if no filename is not given', () => {
-      expect(index2.getIndex()).toEqual({ a: [0], full: [0], powerful: [1], ring: [1], world: [0] });
+      expect(index2.getIndex('key')).toEqual({
+        a: [0], full: [0], powerful: [1], ring: [1], world: [0]
+      });
     });
     it('should check that the array returned contains unique words', () => {
-      expect(index2.filterWords(['a', 'a'])).toEqual(['a']);
+      expect(Index.filterWords(['a', 'a'])).toEqual(['a']);
     });
-    it('should set the index key for a filename', () => {
-      index2.files.key2 = {};
-      index2.setIndex({ a: [1, 2, 3], b: [0, 1] }, 'key2');
-      expect(index2.files.key2.index).toEqual({ a: [1, 2, 3], b: [0, 1] });
-    });
-    it('should set the index for all files', () => {
-      const index3 = new Index();
-      index3.setIndex({ a: [1, 2, 3], b: [0, 1] });
-      expect(index3.files.allBooksIndex).toEqual({ a: [1, 2, 3], b: [0, 1] });
-    });
-    it('should get the books for a filename', () => {
-      const book = index2.getBooks('key');
-      expect(book).toEqual(testFile);
-    });
-    it('should get all the books', () => {
-      const book = index2.getBooks();
-      expect(book).toEqual(testFile);
+
+    it('should not override the index for key', () => {
+      expect(index2.getIndex('key2')).toEqual({
+        a: [0], full: [0], powerful: [1], ring: [1], world: [0]
+      });
+      expect(index2.getIndex('key')).toEqual({
+        a: [0], full: [0], powerful: [1], ring: [1], world: [0]
+      });
     });
   });
 
   describe('Search Index', () => {
     const index3 = new Index();
-    index3.files.key = {};
-    index3.files.key.books = books;
-    index3.createIndex('key');
-
-    index3.files.allBooks = {};
-    index3.files.allBooks = books;
-    index3.createIndex();
+    index3.createIndex('key', books);
     it('should return an arrray of indexes of the searched word', () => {
-      expect(index3.searchIndex('alice', 'key')).toEqual({ Alice: [0] });
-      expect(index3.searchIndex('of', 'key')).toEqual({ of: [0, 1] });
+      expect(index3.searchIndex('alice',
+        ['key'])).toEqual({ key: { alice: [0] } });
+      expect(index3.searchIndex('of',
+        ['key'])).toEqual({ key: { of: [0, 1] } });
     });
     it('should return search result if array is passed as term', () => {
-      expect(index3.searchIndex(['alice'], 'key')).toEqual({ Alice: [0] });
-      expect(index3.searchIndex(['of', 'alice'], 'key')).toEqual({
-        Alice: [0], of: [0, 1]
+      expect(index3.searchIndex(['alice'],
+        ['key'])).toEqual({ key: { alice: [0] } });
+      expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({
+        key: {
+          alice: [0], of: [0, 1]
+        }
       });
     });
-    it('should return search result if multidimensional array is passed as search term', () => {
-      expect(index3.searchIndex(['of', ['alice']], 'key')).toEqual({
-        Alice: [0], of: [0, 1]
+    it('should return search result if multidimensional array is passed'
+      , () => {
+        expect(index3.searchIndex(['of', ['alice']], ['key'])).toEqual({
+          key: {
+            alice: [0], of: [0, 1]
+          }
+        });
       });
-    });
     it('should return search result if a file name is not specified', () => {
-      expect(index3.searchIndex('alice')).toEqual({ Alice: [0] });
-      expect(index3.searchIndex(['of', 'alice'], 'key')).toEqual({
-        Alice: [0], of: [0, 1]
+      expect(index3.searchIndex('alice')).toEqual({ key: { alice: [0] } });
+      expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({
+        key: {
+          alice: [0], of: [0, 1]
+        }
       });
     });
   });
