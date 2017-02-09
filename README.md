@@ -11,7 +11,8 @@ Inverted index object that takes a JSON array of text objects and creates an ind
 * Clone the repository `git clone https://github.com/andela-mabdussalam/Inverted-index
 * Run `npm install` to install all dependencies.
 * To run test, run `npm test`
-* To use inverted index, run `gulp` and go to `localhost://3000`
+* To use inverted index, run `npm start`
+* Read the Start guide provided.
 * Upload your file(s).
 * Select a file from the uploaded files and click on *create index* to get an index of the selected file.
 * To search the created index of a file, select file and enter the word(s) you want to search in the search box.
@@ -31,6 +32,8 @@ Written in Javascript es6 syntax and nodejs on the backend, with the followinng:
 * Code Climate
 
 ## Contributions
-* Clone the repository.
-* Create a new branch for included feature(s).
-* Raise a pull request.
+* Fork it!
+* Create your feature branch: git checkout -b my-new-feature
+* Commit your changes: git commit -m 'Add some feature'
+* Push to the branch: git push origin my-new-feature
+* Submit a pull request :D
