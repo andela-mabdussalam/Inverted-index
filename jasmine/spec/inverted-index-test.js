@@ -52,17 +52,15 @@ describe('Inverted Index ', () => {
   });
 
   describe('Populate Index', () => {
-    const index2 = new Index();
-    index2.createIndex('key', testFile);
-    index2.createIndex('key2', testFile);
+    index.createIndex('key', testFile);
 
     it('should verify that key has been created', () => {
       expect(Object.prototype.hasOwnProperty
-        .call(index2.files.key, 'index')).toBe(true);
+        .call(index.files.key, 'index')).toBe(true);
     });
 
     it('should check that index maps the string to the correct objects', () => {
-      expect(index2.getIndex('key')).toEqual({
+      expect(index.getIndex('key')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
     });
@@ -72,34 +70,33 @@ describe('Inverted Index ', () => {
     });
 
     it('should not override the index for key', () => {
-      expect(index2.getIndex('key2')).toEqual({
+      expect(index.getIndex('key')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
 
-      expect(index2.getIndex('key')).toEqual({
+      expect(index.getIndex('key')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
     });
   });
 
   describe('Search Index', () => {
-    const index3 = new Index();
-    index3.createIndex('key', books);
+    index.createIndex('book', books);
 
     it('should return an arrray of indexes of the searched word', () => {
-      expect(index3.searchIndex('alice',
-        ['key'])).toEqual({ key: { alice: [0] } });
+      expect(index.searchIndex('alice',
+        ['book'])).toEqual({ book: { alice: [0] } });
 
-      expect(index3.searchIndex('of',
-        ['key'])).toEqual({ key: { of: [0, 1] } });
+      expect(index.searchIndex('of',
+        ['book'])).toEqual({ book: { of: [0, 1] } });
     });
 
     it('should return search result if array is passed as term', () => {
-      expect(index3.searchIndex(['alice'],
-        ['key'])).toEqual({ key: { alice: [0] } });
+      expect(index.searchIndex(['alice'],
+        ['book'])).toEqual({ book: { alice: [0] } });
 
-      expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({
-        key: {
+      expect(index.searchIndex(['of', 'alice'], ['book'])).toEqual({
+        book: {
           alice: [0], of: [0, 1]
         }
 
@@ -108,17 +105,20 @@ describe('Inverted Index ', () => {
 
     it('should return search result if multidimensional array is passed'
       , () => {
-        expect(index3.searchIndex(['of', ['alice']], ['key'])).toEqual({
-          key: {
+        expect(index.searchIndex(['of', ['alice']], ['book'])).toEqual({
+          book: {
             alice: [0], of: [0, 1]
           }
         });
       });
 
     it('should return search result if a file name is not specified', () => {
-      expect(index3.searchIndex('alice')).toEqual({ key: { alice: [0] } });
-      expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({
-        key: {
+      expect(index.searchIndex('alice')).toEqual({
+        key: { alice: [] },
+        book: { alice: [0] }
+      });
+      expect(index.searchIndex(['of', 'alice'], ['book'])).toEqual({
+        book: {
           alice: [0], of: [0, 1]
         }
       });
