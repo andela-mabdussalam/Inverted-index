@@ -27,9 +27,9 @@
     <ol class="rectangle-list">
   <li><a> Select a file.</a></li>
   <li><a> Upload the file / Upload multiple files. </a></li>
-  <li><a> Select the file you want to index or Select 'All files'.</a></li>
+  <li><a> Select the file you want to index.</a></li>
   <li><a> Create the index.</a></li>
-  <li><a> Search through the index.</a> </li>
+  <li><a> Search through a file/ Search through all files.</a> </li>
 
 </ol>
     <div class="row">
@@ -101,7 +101,7 @@
   </div>
   <div ng-if="!showIndex && showSearchTable" class="fontSize">
     <table class="table table-striped" ng-repeat="(filename, indexObj) in index">
-      <caption><h3>{{filename}}</h3></caption>
+      <caption><h4>{{filename}}</h4></caption>
       <thead>
         <tr>
           <th>Words</th>

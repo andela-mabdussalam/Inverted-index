@@ -117,11 +117,13 @@ describe('Inverted Index ', () => {
       expect(Object.prototype.hasOwnProperty
         .call(index2.files.key, 'index')).toBe(true);
     });
+
     it('should check that index maps the string to the correct objects', () => {
       expect(index2.getIndex('key')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
     });
+
     it('should check that the array returned contains unique words', () => {
       expect(Index.filterWords(['a', 'a'])).toEqual(['a']);
     });
@@ -130,6 +132,7 @@ describe('Inverted Index ', () => {
       expect(index2.getIndex('key2')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
+
       expect(index2.getIndex('key')).toEqual({
         a: [0], full: [0], powerful: [1], ring: [1], world: [0]
       });
@@ -139,21 +142,27 @@ describe('Inverted Index ', () => {
   describe('Search Index', () => {
     const index3 = new Index();
     index3.createIndex('key', books);
+
     it('should return an arrray of indexes of the searched word', () => {
       expect(index3.searchIndex('alice',
         ['key'])).toEqual({ key: { alice: [0] } });
+
       expect(index3.searchIndex('of',
         ['key'])).toEqual({ key: { of: [0, 1] } });
     });
+
     it('should return search result if array is passed as term', () => {
       expect(index3.searchIndex(['alice'],
         ['key'])).toEqual({ key: { alice: [0] } });
+
       expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({
         key: {
           alice: [0], of: [0, 1]
         }
+
       });
     });
+
     it('should return search result if multidimensional array is passed'
       , () => {
         expect(index3.searchIndex(['of', ['alice']], ['key'])).toEqual({
@@ -162,6 +171,7 @@ describe('Inverted Index ', () => {
           }
         });
       });
+
     it('should return search result if a file name is not specified', () => {
       expect(index3.searchIndex('alice')).toEqual({ key: { alice: [0] } });
       expect(index3.searchIndex(['of', 'alice'], ['key'])).toEqual({

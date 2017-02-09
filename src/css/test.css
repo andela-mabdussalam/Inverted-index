@@ -8,7 +8,7 @@ ol {
     counter-reset: li; /* Initiate a counter */
     list-style: none; /* Remove default numbering */
     *list-style: decimal; /* Keep using default numbering for IE6/7 */
-    font: 12px 'trebuchet MS', 'lucida sans';
+    font: 11px 'trebuchet MS', 'lucida sans';
     padding: 0;
     margin-bottom: 4em;
 
