@@ -37,7 +37,7 @@ app.controller('IndexController', ($scope, toastr) => {
         readFile.readAsText($scope.files[index]);
       });
     } catch (err) {
-      toastr.error('Pls select a file to upload', 'Error');
+      toastr.error('Please select a file to upload', 'Error');
     }
   };
 
@@ -68,22 +68,22 @@ app.controller('IndexController', ($scope, toastr) => {
     $scope.showIndex = false;
     $scope.showSearchTable = true;
     const value = $scope.selectedFile;
-
     const filename = value === 'Allfiles' ? null : $scope.allFiles[value].name;
+    if ($scope.searchTerm === undefined || $scope.searchTerm === '') {
+      toastr.error('Please enter a search word', 'Error');
+      $scope.index = {};
+      return false;
+    }
     if (!filename) {
       $scope.index = myIndex.searchIndex($scope.searchTerm);
     } else {
-      if ($scope.searchTerm === undefined) {
-        toastr.error('Please enter a search word', 'Error');
-        return false;
-      }
       $scope.file = [];
       $scope.file.push(filename);
       const obj = $scope.allFiles[value].content;
       $scope.bookTitle = obj;
       $scope.noOfBook = new Array(obj.length);
       $scope.index = myIndex.searchIndex($scope.searchTerm,
-        $scope.file);
+       $scope.file);
     }
   };
 });
